@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Button } from "../styles/tt";
+import logo from "../src/images/logo.png"; 
 
 function NavBar({ user, setUser }) {
   function handleLogoutClick() {
@@ -14,16 +14,29 @@ function NavBar({ user, setUser }) {
 
   return (
     <Wrapper>
-      <Logo>
-        <Link to="/">BookCLubs</Link>
-      </Logo>
+      <LeftSection>
+        <Logo>
+          <img src={logo} alt="Logo" />
+        </Logo>
+        <StyledText>
+          <Link to="/">GEN-Z BOOKCLUB</Link>
+        </StyledText>
+      </LeftSection>
       <Nav>
-        <Button as={Link} to="/new">
-          new bookclub
-        </Button>
-        <Button variant="outline" onClick={handleLogoutClick}>
-          Logout
-        </Button>
+        <StyledLink to="/">Home</StyledLink>
+        <StyledLink to="/contact">Contact Us</StyledLink>
+        <StyledLink to="/bookclubs">Bookclubs</StyledLink>
+        <StyledLink to="/blog">Blog</StyledLink>
+        {user ? (
+          <Button variant="outline" onClick={handleLogoutClick}>
+            Logout
+          </Button>
+        ) : (
+          <>
+            <StyledLink to="/login">Login</StyledLink>
+            <StyledLink to="/signup">Sign Up</StyledLink>
+          </>
+        )}
       </Nav>
     </Wrapper>
   );
@@ -31,17 +44,30 @@ function NavBar({ user, setUser }) {
 
 const Wrapper = styled.header`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 8px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const Logo = styled.h1`
+const LeftSection = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Logo = styled.div`
+  img {
+    height: 50px;
+    margin-right: 10px;
+  }
+`;
+
+const StyledText = styled.h1`
   font-family: "Permanent Marker", cursive;
-  font-size: 3rem;
+  font-size: 2rem;
   color: deeppink;
   margin: 0;
-  line-height: 1;
 
   a {
     color: inherit;
@@ -51,9 +77,20 @@ const Logo = styled.h1`
 
 const Nav = styled.nav`
   display: flex;
-  gap: 4px;
-  position: absolute;
-  right: 8px;
+  gap: 20px;
+  align-items: center;
+`;
+
+const StyledLink = styled(Link)`
+  color: #333;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 5px 10px;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #e9ecef;
+  }
 `;
 
 export default NavBar;

@@ -5,16 +5,13 @@ import SignUpForm from "../components/SignUpForm";
 import { Button } from "../styles/tt";
 
 function Login({ onLogin }) {
-  /* state to determine whether the signup form or the login form i to be 
-    displayed for the user */
   const [showLogin, setShowLogin] = useState(true);
 
   return (
     <Wrapper>
-      <Logo>BookClubs</Logo>
+      <Logo>GEN-Z BOOKCLUB</Logo>
       {showLogin ? (
         <>
-          {/* render the LoginForm component if the ShowLogin is true/ our default */}
           <LoginForm onLogin={onLogin} />
           <Divider />
           <p>
@@ -26,8 +23,6 @@ function Login({ onLogin }) {
         </>
       ) : (
         <>
-          {/* else, we render the signupform if the showLogin is set to false
-        clicking the sign Up button sets the condition to false */}
           <SignUpForm onLogin={onLogin} />
           <Divider />
           <p>
@@ -53,6 +48,8 @@ const Wrapper = styled.section`
   max-width: 500px;
   margin: 40px auto;
   padding: 16px;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const Divider = styled.hr`

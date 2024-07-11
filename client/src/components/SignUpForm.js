@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Button, Error, Input, FormField, Label, Textarea } from "../styles/tt";
 
 const SignUpForm = ({ onLogin }) => {
-  /* set initial states for our signup form */
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
@@ -11,14 +9,14 @@ const SignUpForm = ({ onLogin }) => {
   const [bio, setBio] = useState("");
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-  /* define important functions for pur sign up component */
+  
+/* define important functions for pur sign up component */
   /* The handleSubmitfunction which in turn calls the onLogin function, passing to it
     the user as a prop if the fetch response is okay */
 
   function handleSubmit(e) {
     e.preventDefault();
-    setErrors([]); //we will append errors if the request response fails
+    setErrors([]);
     setIsLoading(true);
     fetch("/signup", {
       method: "POST",
@@ -93,7 +91,6 @@ const SignUpForm = ({ onLogin }) => {
         />
       </FormField>
       <FormField>
-        {/* Below is the submit button with the condition determining the inner text */}
         <Button type="submit">{isLoading ? "Loading..." : "Sign Up"}</Button>
       </FormField>
       <FormField>
