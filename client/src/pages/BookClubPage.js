@@ -1,11 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import Comments from "../components/Comments";
+import Comments from "../components/Comment";
 
 const BookClubPage = () => {
   const [bookClub, setBookClub] = useState(null);
   const { id } = useParams();
+
+  const [comments, setComments] =useState([]);
+
+  useEffect(() => {
+    fetch(`/comments`)
+      .then((response) => response.json())
+      .then((data) => setComments(data));
+  }, [] );
+
+
+  function  handleAddComment(newComment){
+    setComments([...comments, newComment]);
+  }
+// to handle delete
+  function handleDeleteComment(id) {
+    const updatedComments = comments.filter((comment) => comment.id !== id);
+    setComments(updatedComments);
+  }
+  // update
+  function handleUpdateComment(updatedCommentObj) {
+    const updatedComment = comments.map((comment) => {
+      if (comment.id === updatedCommentObj.id) {
+        return updatedCommentObj;
+      } else {
+        return comment;
+      }
+    });
+    setComment(updatedComment);
+  }
+
 
   useEffect(() => {
     fetch(`/book-clubs/${id}`)
@@ -16,6 +46,7 @@ const BookClubPage = () => {
   if (!bookClub) {
     return <Loading>Loading...</Loading>;
   }
+
 
   return (
     <Container>
@@ -39,7 +70,8 @@ const BookClubPage = () => {
           ))}
         </ul>
       </Section>
-      <Comments />
+      <CommentList    comments = {updatedComments} onCommentUpdate={handleUpdateComment} onCommentDelete= {handleDeleteComment}/>
+      <NewComment user={user} onAddComment={handleAddComment}/>
     </Container>
   );
 };
