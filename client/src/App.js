@@ -29,13 +29,11 @@ const App = () => {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/bookclubs" element={<Bookclubs />} />
-          <Route path="/blog" element={<Blog />} />
+
           <Route path="/login" element={<Login onLogin={setUser} />} />
           <Route path="/signup" element={<Signup onSignup={setUser} />} />
-          <Route path="/book-clubs/:id" element={<BookClubPage />} />
-          <Route path="/bookclubs" element={<BookClub />} />
+          <Route path="/book_clubs/:id" element={<BookClubPage />} />
+          <Route path="/book_clubs" element={<BookClub />} />
           <Route path="/podcast" element={<Podcast />} />
           {/* Add other routes as needed */}
         </Routes>
