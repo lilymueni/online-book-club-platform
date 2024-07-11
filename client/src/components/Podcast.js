@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import  Soon from "../assets/Soon.jpg"; // Ensure this path is correct
+import comingSoon from "../assets/comingSoon.jpg"; // Ensure this path is correct
 
 const Podcast = () => {
   return (
     <Wrapper>
-      <Image src={Soon} alt="Coming Soon" />
+      <Image src={comingSoon} alt="Coming Soon" />
       <p>©GenZ</p>
     </Wrapper>
   );
@@ -16,7 +16,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 100px - 50px); /* Adjust based on your navbar and footer height */
+  min-height: calc(
+    100vh - 100px - 50px
+  ); /* Adjust based on your navbar and footer height */
   padding: 20px;
   background-color: #f0f0f0; /* Light background color */
 `;

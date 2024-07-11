@@ -2,40 +2,42 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Comments from "../components/Comment";
+import NewComment from "../components/NewComment.js";
+import CommentList from "../components/CommentList.js";
+
+const testUser = { username: "Duane" };
 
 const BookClubPage = () => {
   const [bookClub, setBookClub] = useState(null);
   const { id } = useParams();
 
-  const [comments, setComments] =useState([]);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    fetch(`/comments`)
+    fetch(`https://backend-bookclub.onrender.com/book_clubs/${id}/comments`)
       .then((response) => response.json())
       .then((data) => setComments(data));
-  }, [] );
+  }, []);
 
-
-  function  handleAddComment(newComment){
+  function handleAddComment(newComment) {
     setComments([...comments, newComment]);
   }
-// to handle delete
+  // to handle delete
   function handleDeleteComment(id) {
-    const updatedComments = comments.filter((comment) => comment.id !== id);
-    setComments(updatedComments);
+    const comments = comments.filter((comment) => comment.id !== id);
+    setComments(comments);
   }
   // update
   function handleUpdateComment(updatedCommentObj) {
-    const updatedComment = comments.map((comment) => {
+    const comments = comments.map((comment) => {
       if (comment.id === updatedCommentObj.id) {
         return updatedCommentObj;
       } else {
         return comment;
       }
     });
-    setComment(updatedComment);
+    setComments(comments);
   }
-
 
   useEffect(() => {
     fetch(`/book-clubs/${id}`)
@@ -46,7 +48,6 @@ const BookClubPage = () => {
   if (!bookClub) {
     return <Loading>Loading...</Loading>;
   }
-
 
   return (
     <Container>
@@ -69,9 +70,15 @@ const BookClubPage = () => {
             <li key={book.id}>{book.title}</li>
           ))}
         </ul>
+        <h2>Users</h2>
+        <ul></ul>
       </Section>
-      <CommentList    comments = {updatedComments} onCommentUpdate={handleUpdateComment} onCommentDelete= {handleDeleteComment}/>
-      <NewComment user={user} onAddComment={handleAddComment}/>
+      <CommentList
+        comments={comments}
+        onCommentUpdate={handleUpdateComment}
+        onCommentDelete={handleDeleteComment}
+      />
+      <NewComment currentUser={testUser} onAddComment={handleAddComment} />
     </Container>
   );
 };
@@ -89,7 +96,7 @@ const Container = styled.div`
 
 const Header = styled.header`
   margin-bottom: 20px;
-  
+
   h1 {
     font-size: 2rem;
     color: #333;

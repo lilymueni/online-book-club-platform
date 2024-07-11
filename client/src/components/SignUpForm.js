@@ -9,8 +9,8 @@ const SignUpForm = ({ onLogin }) => {
   const [bio, setBio] = useState("");
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  
-/* define important functions for pur sign up component */
+
+  /* define important functions for pur sign up component */
   /* The handleSubmitfunction which in turn calls the onLogin function, passing to it
     the user as a prop if the fetch response is okay */
 
