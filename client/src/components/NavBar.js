@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../src/images/logo.png"; 
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import logo from './logo1.jpg'; // Adjust the path to your logo image
 
-function NavBar({ user, setUser }) {
+const NavBar = ({ user, setUser }) => {
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
       if (r.ok) {
@@ -14,29 +14,26 @@ function NavBar({ user, setUser }) {
 
   return (
     <Wrapper>
-      <LeftSection>
-        <Logo>
-          <img src={logo} alt="Logo" />
-        </Logo>
-        <StyledText>
-          <Link to="/">GEN-Z BOOKCLUB</Link>
-        </StyledText>
-      </LeftSection>
+      <Logo>
+        <img src={logo} alt="logo" className="logo" />
+        <Link to="/">GenZBookCLubs</Link>
+      </Logo>
       <Nav>
-        <StyledLink to="/">Home</StyledLink>
-        <StyledLink to="/contact">Contact Us</StyledLink>
-        <StyledLink to="/bookclubs">Bookclubs</StyledLink>
-        <StyledLink to="/blog">Blog</StyledLink>
-        {user ? (
-          <Button variant="outline" onClick={handleLogoutClick}>
-            Logout
-          </Button>
-        ) : (
-          <>
-            <StyledLink to="/login">Login</StyledLink>
-            <StyledLink to="/signup">Sign Up</StyledLink>
-          </>
-        )}
+        <NavItem as={Link} to="/">
+          Home
+        </NavItem>
+        <NavItem as={Link} to="/blog">
+          Blog
+        </NavItem>
+        <NavItem as={Link} to="/podcast">
+          Podcast
+        </NavItem>
+        <NavItem as={Link} to="/bookclubs">
+          Book Clubs
+        </NavItem>
+        <NavItem onClick={handleLogoutClick}>
+          Logout
+        </NavItem>
       </Nav>
     </Wrapper>
   );
@@ -46,28 +43,23 @@ const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  background-color: #f8f9fa;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #7e76f9; /* Lighter shade of pinkish-purple */
+  padding: 20px;
+  height: 100px; /* Increased height */
 `;
 
-const LeftSection = styled.div`
+const Logo = styled.h1`
   display: flex;
   align-items: center;
-`;
-
-const Logo = styled.div`
-  img {
-    height: 50px;
-    margin-right: 10px;
-  }
-`;
-
-const StyledText = styled.h1`
   font-family: "Permanent Marker", cursive;
   font-size: 2rem;
-  color: deeppink;
+  background-color: #7e76f9; /* Lighter shade of pinkish-purple */
   margin: 0;
+
+  .logo {
+    height: 60px; /* Adjust the height of the logo */
+    margin-right: 10px; /* Space between the logo and the title */
+  }
 
   a {
     color: inherit;
@@ -78,18 +70,16 @@ const StyledText = styled.h1`
 const Nav = styled.nav`
   display: flex;
   gap: 20px;
-  align-items: center;
 `;
 
-const StyledLink = styled(Link)`
-  color: #333;
-  text-decoration: none;
-  font-size: 1rem;
-  padding: 5px 10px;
-  border-radius: 5px;
+const NavItem = styled.div`
+  font-size: 1.2rem;
+  color: black;
+  cursor: pointer;
+  transition: all 0.3s ease;
 
   &:hover {
-    background-color: #e9ecef;
+    color: pink; /* Pink color on hover */
   }
 `;
 
