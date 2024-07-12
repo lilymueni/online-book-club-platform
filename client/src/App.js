@@ -8,6 +8,7 @@ import Podcast from "./components/Podcast";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import BookClubPage from "./pages/BookClubPage";
+// import Bookclubs from "./components/"
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -29,9 +30,9 @@ const App = () => {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/bookclubs" element={<Bookclubs />} />
-          <Route path="/blog" element={<Blog />} />
+          {/* <Route path="/contact" element={<Contact />} /> */}
+          {/* <Route path="/bookclubs" element={<Bookclubs />} /> */}
+          {/* <Route path="/blog" element={<Blog />} /> */}
           <Route path="/login" element={<Login onLogin={setUser} />} />
           <Route path="/signup" element={<Signup onSignup={setUser} />} />
           <Route path="/book-clubs/:id" element={<BookClubPage />} />

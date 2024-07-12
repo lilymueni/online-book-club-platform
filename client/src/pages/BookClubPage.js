@@ -2,30 +2,31 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Comments from "../components/Comment";
+import CommentList from "../components/CommentList"; // Ensure these components exist
+import NewComment from "../components/NewComment"; // Ensure these components exist
 
 const BookClubPage = () => {
   const [bookClub, setBookClub] = useState(null);
   const { id } = useParams();
-
-  const [comments, setComments] =useState([]);
+  const [comments, setComments] = useState([]);
+  const [user, setUser] = useState(null); // Placeholder for user, ensure it's defined
 
   useEffect(() => {
     fetch(`/comments`)
       .then((response) => response.json())
       .then((data) => setComments(data));
-  }, [] );
+  }, []);
 
-
-  function  handleAddComment(newComment){
+  const handleAddComment = (newComment) => {
     setComments([...comments, newComment]);
-  }
-// to handle delete
-  function handleDeleteComment(id) {
+  };
+
+  const handleDeleteComment = (id) => {
     const updatedComments = comments.filter((comment) => comment.id !== id);
     setComments(updatedComments);
-  }
-  // update
-  function handleUpdateComment(updatedCommentObj) {
+  };
+
+  const handleUpdateComment = (updatedCommentObj) => {
     const updatedComment = comments.map((comment) => {
       if (comment.id === updatedCommentObj.id) {
         return updatedCommentObj;
@@ -33,9 +34,8 @@ const BookClubPage = () => {
         return comment;
       }
     });
-    setComment(updatedComment);
-  }
-
+    setComments(updatedComment);
+  };
 
   useEffect(() => {
     fetch(`/book-clubs/${id}`)
@@ -46,7 +46,6 @@ const BookClubPage = () => {
   if (!bookClub) {
     return <Loading>Loading...</Loading>;
   }
-
 
   return (
     <Container>
@@ -70,8 +69,8 @@ const BookClubPage = () => {
           ))}
         </ul>
       </Section>
-      <CommentList    comments = {updatedComments} onCommentUpdate={handleUpdateComment} onCommentDelete= {handleDeleteComment}/>
-      <NewComment user={user} onAddComment={handleAddComment}/>
+      <CommentList comments={comments} onCommentUpdate={handleUpdateComment} onCommentDelete={handleDeleteComment} />
+      <NewComment user={user} onAddComment={handleAddComment} onCloseForm={() => {}} /> {/* Add appropriate onCloseForm handler */}
     </Container>
   );
 };
