@@ -28,12 +28,15 @@ const NavBar = ({ user, setUser }) => {
         <NavItem as={Link} to="/podcast">
           Podcast
         </NavItem>
-        <NavItem as={Link} to="/bookclubs">
+        <NavItem as={Link} to="/book_clubs">
           Book Clubs
         </NavItem>
-        <NavItem onClick={handleLogoutClick}>
-          Logout
+        <NavItem as={Link} to="/login">
+          SignIn
         </NavItem>
+        {/* <NavItem onClick={handleLogoutClick}>
+          Logout
+        </NavItem> */}
       </Nav>
     </Wrapper>
   );

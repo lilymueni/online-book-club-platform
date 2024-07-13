@@ -21,16 +21,12 @@ const App = () => {
     });
   }, []);
 
-  // Comment out the conditional rendering of Login
-  // if (!user) return <Login onLogin={setUser} />;
-
   return (
     <Router>
       <NavBar user={user} setUser={setUser} />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-
           <Route path="/login" element={<Login onLogin={setUser} />} />
           <Route path="/signup" element={<Signup onSignup={setUser} />} />
           <Route path="/book_clubs/:id" element={<BookClubPage />} />

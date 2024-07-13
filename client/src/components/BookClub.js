@@ -1,52 +1,69 @@
-// import React, { useState, useEffect } from "react";
-// import BookClubCard from "./BookClubCard";
-
-// const BookClub = () => {
-//   const [bookClubs, setBookClubs] = useState([]);
-
-//   useEffect(() => {
-//     fetch("/bookclubs")
-//       .then((response) => response.json())
-//       .then((data) => setBookClubs(data));
-//   }, []);
-
-//   return (
-//     <div className="book-club-list">
-//       {bookClubs.map((bookClub) => (
-//         <BookClubCard key={bookClub.id} bookClub={bookClub} />
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default BookClub;
-
-import React, { useRef, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import styled from "styled-components";
+import DiscussionModal from "./DiscussionModal"; // Assuming DiscussionModal is correctly implemented
 
 const initialFormData = {
   name: "",
   cover: "",
   description: "",
   genre: "",
-  members: 0, // Initialize members count
+  members: 0,
 };
+
+const initialBookClubs = [
+  {
+    name: "Social Justice",
+    cover: "https://i.pinimg.com/736x/28/8d/e3/288de3c1d0b35cc50bc018acb879573c.jpg",
+    description: "Books focusing on social issues and activism.",
+    genre: "Social Justice",
+    members: 52,
+    comments: [
+      { id: 1, username: "User1", body: "Great club!", created_at: "2024-07-12T10:30:00Z" },
+      { id: 2, username: "User2", body: "I love the discussions here.", created_at: "2024-07-12T11:15:00Z" },
+    ],
+  },
+  {
+    name: "Romance",
+    cover: "https://i.pinimg.com/736x/00/21/b5/0021b5139b25e0d9633c60cbf6d5e23c.jpg",
+    description: "Love stories and romantic novels.",
+    genre: "Romance",
+    members: 76,
+    comments: [
+      { id: 1, username: "User3", body: "This club has the best romance picks.", created_at: "2024-07-12T09:45:00Z" },
+      { id: 2, username: "User4", body: "Excited for the next book!", created_at: "2024-07-12T12:00:00Z" },
+    ],
+  },
+  {
+    name: "Fantasy and Mythology",
+    cover: "https://i.pinimg.com/736x/26/c9/52/26c9526963119cb7437e6dd8cbdd7f6f.jpg",
+    description: "Books featuring fantastical worlds and mythological themes.",
+    genre: "Fantasy and Mythology",
+    members: 63,
+    comments: [],
+  },
+  {
+    name: "Adventure and Travel",
+    cover: "https://i.pinimg.com/736x/e0/84/d6/e084d6df52e1c4ffa7dd2a8528393a21.jpg",
+    description: "Travel guides and adventure stories.",
+    genre: "Adventure and Travel",
+    members: 41,
+    comments: [],
+  },
+  {
+    name: "Cultural Identity",
+    cover: "https://i.pinimg.com/736x/84/fa/16/84fa16af03cabbe487e9b87f3e724963.jpg",
+    description: "Books exploring cultural heritage and identity.",
+    genre: "Cultural Identity",
+    members: 57,
+    comments: [],
+  },
+];
 
 const BookClub = () => {
   const [showForm, setShowForm] = useState(false);
-
-  const [bookClubs, setBookClubs] = useState([]);
-
+  const [bookClubs, setBookClubs] = useState(initialBookClubs); // Initialize with initialBookClubs data
   const [formData, setFormData] = useState(initialFormData);
-
-  const bookClubRefs = useRef({});
-
-  useEffect(() => {
-    fetch(`https://backend-bookclub.onrender.com/book_clubs`)
-      .then((response) => response.json())
-      .then((data) => setBookClubs(data));
-  }, []);
+  const [selectedClub, setSelectedClub] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -60,9 +77,10 @@ const BookClub = () => {
     e.preventDefault();
     const newClub = {
       ...formData,
-      members: Math.floor(Math.random() * 100) + 1, // Simulate random number of members
+      members: Math.floor(Math.random() * 100) + 1,
+      comments: [], // Initialize with an empty array for comments
     };
-    setBookClubs([...bookClubs, newClub]);
+    setBookClubs((prevClubs) => [...prevClubs, newClub]);
     setFormData(initialFormData);
     setShowForm(false);
   };
@@ -72,13 +90,32 @@ const BookClub = () => {
     setFormData(initialFormData);
   };
 
+  const handleDiscussionClick = (club) => {
+    setSelectedClub(club);
+  };
+
+  const closeDiscussionModal = () => {
+    setSelectedClub(null);
+  };
+
+  const addComment = (newComment) => {
+    const updatedClubs = bookClubs.map((club) => {
+      if (club.name === selectedClub.name) {
+        return {
+          ...club,
+          comments: [...club.comments, newComment],
+        };
+      }
+      return club;
+    });
+    setBookClubs(updatedClubs);
+  };
+
   return (
     <Wrapper>
       <NavBar>
         <Title>Book Clubs</Title>
-        <AddButton onClick={() => setShowForm(true)}>
-          Add a new Book Club
-        </AddButton>
+        <AddButton onClick={() => setShowForm(true)}>Add a new Book Club</AddButton>
       </NavBar>
       {showForm && (
         <FormContainer>
@@ -115,32 +152,39 @@ const BookClub = () => {
               required
             />
             <FormButton type="submit">Create Book Club</FormButton>
-            <CancelButton type="button" onClick={handleFormClose}>
-              Cancel
-            </CancelButton>
+            <CancelButton type="button" onClick={handleFormClose}>Cancel</CancelButton>
           </Form>
         </FormContainer>
       )}
 
-      {/*  {
-          bookClubs.map((club) => {
-            <BookClubCard club= {club/>
-          })
-        } */}
-
       <CardContainer>
-        {bookClubs.map((club, index) => (
-          <Card key={index} ref={(el) => (bookClubRefs.current[index] = el)}>
-            <Image src={club.cover} alt={club.name} />
-            <ClubName>{club.name}</ClubName>
-            <Description>{club.description}</Description>
-            <Members>{club.members} members</Members>
-            <DiscussionButton to={`/discussion/${club.name}`}>
-              Discussion
-            </DiscussionButton>
-          </Card>
-        ))}
+        {bookClubs.length > 0 ? (
+          bookClubs.map((club, index) => (
+            <Card key={index}>
+              <Image src={club.cover} alt={club.name} />
+              <ClubName>{club.name}</ClubName>
+              <Description>{club.description}</Description>
+              <Members>{club.members} members</Members>
+              {/* Changed to open discussion modal */}
+              <DiscussionButton onClick={() => handleDiscussionClick(club)}>
+                Discussion
+              </DiscussionButton>
+            </Card>
+          ))
+        ) : (
+          <p>No book clubs available</p>
+        )}
       </CardContainer>
+
+      {/* Discussion modal */}
+      {selectedClub && (
+        <DiscussionModal
+          isOpen={!!selectedClub}
+          onClose={closeDiscussionModal}
+          club={selectedClub}
+          addComment={addComment}
+        />
+      )}
     </Wrapper>
   );
 };
@@ -148,6 +192,7 @@ const BookClub = () => {
 const Wrapper = styled.div`
   padding: 20px;
   background-color: #f0f0f0;
+  position: relative;
 `;
 
 const NavBar = styled.div`
@@ -173,10 +218,6 @@ const AddButton = styled.button`
   cursor: pointer;
   transition: background-color 0.3s ease;
   outline: none;
-
-  &:hover {
-    background-color: #5b57d9;
-  }
 `;
 
 const FormContainer = styled.div`
@@ -219,10 +260,6 @@ const FormButton = styled.button`
   cursor: pointer;
   transition: background-color 0.3s ease;
   outline: none;
-
-  &:hover {
-    background-color: #5b57d9;
-  }
 `;
 
 const CancelButton = styled.button`
@@ -237,10 +274,6 @@ const CancelButton = styled.button`
   transition: background-color 0.3s ease;
   margin-top: 10px;
   outline: none;
-
-  &:hover {
-    background-color: #bbb;
-  }
 `;
 
 const CardContainer = styled.div`
@@ -289,20 +322,20 @@ const Description = styled.p`
 
 const Members = styled.p`
   font-size: 0.9rem;
-  color: #999;
-  margin-bottom: 15px;
+  color: #888;
+  margin-top: auto;
 `;
 
-const DiscussionButton = styled(Link)`
-  padding: 12px 24px;
-  border: none;
-  border-radius: 5px;
+const DiscussionButton = styled.button`
+  padding: 8px 16px;
   background-color: #7e76f9;
   color: white;
   text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
   text-align: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  outline: none;
 
   &:hover {
     background-color: #5b57d9;
