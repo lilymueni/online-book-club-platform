@@ -13,9 +13,7 @@ const Footer = () => {
         <NavItem>Podcast</NavItem>
         <NavItem>Blog</NavItem>
         
-        <NavItem>About</NavItem>
-        
-        <NavItem>Contact</NavItem>
+      
         
       </Section>
       <Section>
