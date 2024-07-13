@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Comments from "../components/Comment";
-import CommentList from "../components/CommentList"; // Ensure these components exist
-import NewComment from "../components/NewComment"; // Ensure these components exist
+import NewComment from "../components/NewComment.js";
+import CommentList from "../components/CommentList.js";
+
+const testUser = { username: "Duane" };
 
 const BookClubPage = () => {
   const [bookClub, setBookClub] = useState(null);
@@ -12,7 +14,7 @@ const BookClubPage = () => {
   const [user, setUser] = useState(null); // Placeholder for user, ensure it's defined
 
   useEffect(() => {
-    fetch(`/comments`)
+    fetch(`https://backend-bookclub.onrender.com/book_clubs/${id}/comments`)
       .then((response) => response.json())
       .then((data) => setComments(data));
   }, []);
@@ -68,9 +70,15 @@ const BookClubPage = () => {
             <li key={book.id}>{book.title}</li>
           ))}
         </ul>
+        <h2>Users</h2>
+        <ul></ul>
       </Section>
-      <CommentList comments={comments} onCommentUpdate={handleUpdateComment} onCommentDelete={handleDeleteComment} />
-      <NewComment user={user} onAddComment={handleAddComment} onCloseForm={() => {}} /> {/* Add appropriate onCloseForm handler */}
+      <CommentList
+        comments={comments}
+        onCommentUpdate={handleUpdateComment}
+        onCommentDelete={handleDeleteComment}
+      />
+      <NewComment currentUser={testUser} onAddComment={handleAddComment} />
     </Container>
   );
 };
@@ -88,7 +96,7 @@ const Container = styled.div`
 
 const Header = styled.header`
   margin-bottom: 20px;
-  
+
   h1 {
     font-size: 2rem;
     color: #333;
