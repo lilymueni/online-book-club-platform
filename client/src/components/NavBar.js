@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import logo from './logo1.jpg'; // Adjust the path to your logo image
+import logo from "./logo1.jpg"; // Adjust the path to your logo image
 
 const NavBar = ({ user, setUser }) => {
   function handleLogoutClick() {
@@ -31,8 +31,8 @@ const NavBar = ({ user, setUser }) => {
         <NavItem as={Link} to="/book_clubs">
           Book Clubs
         </NavItem>
-        <NavItem as={Link} to="/login">
-          SignIn
+        <NavItem as={Link} to="/logout">
+          Logout
         </NavItem>
         {/* <NavItem onClick={handleLogoutClick}>
           Logout
@@ -40,7 +40,7 @@ const NavBar = ({ user, setUser }) => {
       </Nav>
     </Wrapper>
   );
-}
+};
 
 const Wrapper = styled.header`
   display: flex;

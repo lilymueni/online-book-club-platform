@@ -2,9 +2,11 @@
   "dependencies": {
     "formik": "^2.4.6",
     "react-router-dom": "^6.24.1",
-    "react-scripts": "^5.0.1",
     "styled-components": "^6.1.11",
     "web-vitals": "^4.2.1",
     "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "react-scripts": "^5.0.1"
   }
 }
