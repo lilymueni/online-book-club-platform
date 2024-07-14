@@ -37,7 +37,7 @@ const Home = () => {
       rating: 4.7,
     },
     {
-      cover: "https://images-na.ssl-images-amazon.com/images/I/41-+1b-9eZL._SX331_BO1,204,203,200_.jpg",
+      cover: "https://i.pinimg.com/736x/25/ff/e8/25ffe8edc47beb595f36401a7589ae1e.jpg",
       title: "To Kill a Mockingbird",
       description: "A novel by Harper Lee.",
       rating: 4.8,

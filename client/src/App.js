@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
 import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import BookClub from "./components/BookClub";
 import Footer from "./components/Footer";
 import Podcast from "./components/Podcast";
-import Signup from "./pages/Signup";
+
 import Login from "./pages/Login";
 import BookClubPage from "./pages/BookClubPage";
+// import Bookclubs from "./components/"
 
 const App = () => {
+  //set state for user, will change with respect to different users from db
   const [user, setUser] = useState(null);
-
+  //fetch session data to determine which page to render
   useEffect(() => {
     fetch("/check_session").then((r) => {
       if (r.ok) {
@@ -19,9 +28,9 @@ const App = () => {
       }
     });
   }, []);
-
-  // Comment out the conditional rendering of Login
-  // if (!user) return <Login onLogin={setUser} />;
+  //upon fetch, if user doesnt exist in session object/ user iiis null
+  //render the login/signup page
+  if (!user) return <Login onLogin={setUser} />;
 
   return (
     <Router>
@@ -29,12 +38,12 @@ const App = () => {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-
           <Route path="/login" element={<Login onLogin={setUser} />} />
-          <Route path="/signup" element={<Signup onSignup={setUser} />} />
+          {/* <Route path="/signup" element={<Signup onSignup={setUser} />} /> */}
           <Route path="/book_clubs/:id" element={<BookClubPage />} />
           <Route path="/book_clubs" element={<BookClub />} />
           <Route path="/podcast" element={<Podcast />} />
+          <Route path="/logout" element={<Login />} />
           {/* Add other routes as needed */}
         </Routes>
       </main>

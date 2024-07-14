@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import comingSoon from "../assets/comingSoon.jpg"; // Ensure this path is correct
-
+import Comingsoon from "../assets/comingsoon.jpg"
 const Podcast = () => {
   return (
     <Wrapper>
-      <Image src={comingSoon} alt="Coming Soon" />
+      <Image src={Comingsoon} alt="Coming Soon" />
       <p>©GenZ</p>
     </Wrapper>
   );
