@@ -4,13 +4,13 @@ import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import logo from "./logo1.jpg"; // Adjust the path to your logo image
 
 const NavBar = ({ user, setUser }) => {
-  function handleLogoutClick() {
-    fetch("/logout", { method: "DELETE" }).then((r) => {
-      if (r.ok) {
-        setUser(null);
-      }
-    });
-  }
+  // function handleLogoutClick() {
+  //   fetch("/logout", { method: "DELETE" }).then((r) => {
+  //     if (r.ok) {
+  //       setUser(null);
+  //     }
+  //   });
+  // }
 
   return (
     <Wrapper>

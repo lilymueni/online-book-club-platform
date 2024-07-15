@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  useLocation,
-  useNavigate,
+  Route
+  //useLocation,
+  //useNavigate,
 } from "react-router-dom";
 
 import NavBar from "./components/NavBar";

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import Comments from "../components/Comment";
+//import Comments from "../components/Comment";
 import NewComment from "../components/NewComment.js";
-import CommentList from "../components/CommentList.js";
-import DicussionModal from "../components/CommentList.js";
+//import CommentList from "../components/CommentList.js";
+//import DicussionModal from "../components/CommentList.js";
 
 const testUser = { username: "Duane" };
 //sample bookclub for testing
@@ -41,10 +41,10 @@ const testClub = {
 };
 
 const BookClubPage = () => {
-  const [bookClub, setBookClub] = useState(null);
+  const [bookClub] = useState(null);
   const { id } = useParams();
-  const [comments, setComments] = useState([]);
-  const [user, setUser] = useState(null); // Placeholder for user, ensure it's defined
+  const [setComments] = useState([]);
+  //const [user, setUser] = useState(null); // Placeholder for user, ensure it's defined
 
   //Fetch the clicked bookclub
   /*   useEffect(() => {
@@ -87,21 +87,21 @@ const BookClubPage = () => {
     setComments([...testClub.comments, newComment]);
   };
 
-  const handleDeleteComment = (id) => {
-    const updatedComments = comments.filter((comment) => comment.id !== id);
-    setComments(updatedComments);
-  };
+  // const handleDeleteComment = (id) => {
+  //   const updatedComments = comments.filter((comment) => comment.id !== id);
+  //   setComments(updatedComments);
+  // };
 
-  const handleUpdateComment = (updatedCommentObj) => {
-    const updatedComment = comments.map((comment) => {
-      if (comment.id === updatedCommentObj.id) {
-        return updatedCommentObj;
-      } else {
-        return comment;
-      }
-    });
-    setComments(updatedComment);
-  };
+  // const handleUpdateComment = (updatedCommentObj) => {
+  //   const updatedComment = comments.map((comment) => {
+  //     if (comment.id === updatedCommentObj.id) {
+  //       return updatedCommentObj;
+  //     } else {
+  //       return comment;
+  //     }
+  //   });
+  //   setComments(updatedComment);
+  // };
 
   return (
     <Container>
