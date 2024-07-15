@@ -4,7 +4,7 @@ on:
   push:
     branches: [master, main]
     paths:
-      - 'README.md'
+      - 'public/index.html'
 
 jobs:
   sync:
