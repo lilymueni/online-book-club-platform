@@ -1,103 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom"; //for navigating to a new page
 
 import DiscussionModal from "./DiscussionModal"; // Assuming DiscussionModal is correctly implemented
 
+//instead of this, fetch data from api
+
 const initialFormData = {
   id: "",
   name: "",
-  cover: "",
+  cover_image: "",
   description: "",
   genre: "",
   members: 0,
 };
 
-const initialBookClubs = [
-  {
-    id: 1,
-    name: "Social Justice",
-    cover:
-      "https://i.pinimg.com/736x/28/8d/e3/288de3c1d0b35cc50bc018acb879573c.jpg",
-    description: "Books focusing on social issues and activism.",
-    genre: "Social Justice",
-    members: 52,
-    comments: [
-      {
-        id: 1,
-        username: "User1",
-        body: "Great club!",
-        created_at: "2024-07-12T10:30:00Z",
-      },
-      {
-        id: 2,
-        username: "User2",
-        body: "I love the discussions here.",
-        created_at: "2024-07-12T11:15:00Z",
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "Romance",
-    cover:
-      "https://i.pinimg.com/736x/00/21/b5/0021b5139b25e0d9633c60cbf6d5e23c.jpg",
-    description: "Love stories and romantic novels.",
-    genre: "Romance",
-    members: 76,
-    comments: [
-      {
-        id: 1,
-        username: "User3",
-        body: "This club has the best romance picks.",
-        created_at: "2024-07-12T09:45:00Z",
-      },
-      {
-        id: 2,
-        username: "User4",
-        body: "Excited for the next book!",
-        created_at: "2024-07-12T12:00:00Z",
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "Fantasy and Mythology",
-    cover:
-      "https://i.pinimg.com/736x/26/c9/52/26c9526963119cb7437e6dd8cbdd7f6f.jpg",
-    description: "Books featuring fantastical worlds and mythological themes.",
-    genre: "Fantasy and Mythology",
-    members: 63,
-    comments: [],
-  },
-  {
-    name: "Adventure and Travel",
-    cover:
-      "https://i.pinimg.com/736x/e0/84/d6/e084d6df52e1c4ffa7dd2a8528393a21.jpg",
-    description: "Travel guides and adventure stories.",
-    genre: "Adventure and Travel",
-    members: 41,
-    comments: [],
-  },
-  {
-    id: 4,
-    name: "Cultural Identity",
-    cover:
-      "https://i.pinimg.com/736x/84/fa/16/84fa16af03cabbe487e9b87f3e724963.jpg",
-    description: "Books exploring cultural heritage and identity.",
-    genre: "Cultural Identity",
-    members: 57,
-    comments: [],
-  },
-];
-
 const BookClub = () => {
   const [showForm, setShowForm] = useState(false);
-  const [bookClubs, setBookClubs] = useState(initialBookClubs); // Initialize with initialBookClubs data
+  const [bookClubs, setBookClubs] = useState([]); // Initialize with [] data
   const [formData, setFormData] = useState(initialFormData);
   const [selectedClub, setSelectedClub] = useState(null);
 
   const navigate = useNavigate(); //define useNavigate to navigate to a blog page
+
+  useEffect(() => {
+    fetchBookClubs();
+  }, []);
+
+  const fetchBookClubs = async () => {
+    const response = await fetch(
+      "https://backend-bookclub-y5fd.onrender.com/book_clubs"
+    );
+    const data = await response.json();
+    setBookClubs(data);
+  };
 
   const handleExploreClick = (club) => {
     navigate(`/book_clubs/${club.id}`);
@@ -151,9 +87,7 @@ const BookClub = () => {
     <Wrapper>
       <NavBar>
         <Title>Book Clubs</Title>
-        <AddButton onClick={() => setShowForm(true)}>
-          Add a new Book Club
-        </AddButton>
+        <AddButton onClick={() => setShowForm(true)}>Add a new Book Club</AddButton>
       </NavBar>
       {showForm && (
         <FormContainer>
@@ -166,11 +100,11 @@ const BookClub = () => {
               onChange={handleInputChange}
               required
             />
-            <FormLabel>Cover Image URL</FormLabel>
+            <FormLabel>cover_image Image URL</FormLabel>
             <FormInput
               type="text"
-              name="cover"
-              value={formData.cover}
+              name="cover_image"
+              value={formData.cover_image}
               onChange={handleInputChange}
               required
             />
@@ -190,9 +124,7 @@ const BookClub = () => {
               required
             />
             <FormButton type="submit">Create Book Club</FormButton>
-            <CancelButton type="button" onClick={handleFormClose}>
-              Cancel
-            </CancelButton>
+            <CancelButton type="button" onClick={handleFormClose}>Cancel</CancelButton>
           </Form>
         </FormContainer>
       )}
@@ -201,10 +133,10 @@ const BookClub = () => {
         {bookClubs.length > 0 ? (
           bookClubs.map((club, index) => (
             <Card key={index}>
-              <Image src={club.cover} alt={club.name} />
+              <Image src={club.cover_image} alt={club.name} />
               <ClubName>{club.name}</ClubName>
               <Description>{club.description}</Description>
-              <Members>{club.members} members</Members>
+              <Members>{club.members_count} members</Members>
               {/* Changed to open discussion modal */}
               <ExploreButton onClick={() => handleExploreClick(club)}>
                 Explore club...
@@ -359,6 +291,7 @@ const Description = styled.p`
   color: #666;
   margin-bottom: 10px;
 `;
+
 const ExploreButton = styled.button`
   background-color: #007bff;
   color: #fff;
