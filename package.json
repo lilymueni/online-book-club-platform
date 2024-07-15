@@ -1,5 +1,5 @@
 {
-  "proxy": "https://genzbookclub2.netlify.app/",
+  "proxy": "https://backend-bookclub-ftv9.onrender.com/",
   "name": "client",
   "version": "0.1.0",
   "private": true,

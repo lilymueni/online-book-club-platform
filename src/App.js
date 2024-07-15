@@ -3,8 +3,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route
-  //useLocation,
-  //useNavigate,
 } from "react-router-dom";
 
 import NavBar from "./components/NavBar";
@@ -15,21 +13,20 @@ import Podcast from "./components/Podcast";
 
 import Login from "./pages/Login";
 import BookClubPage from "./pages/BookClubPage";
-// import Bookclubs from "./components/"
 
 const App = () => {
-  //set state for user, will change with respect to different users from db
   const [user, setUser] = useState(null);
-  //fetch session data to determine which page to render
+  
+  const backendUrl = "https://backend-bookclub-ftv9.onrender.com/";
+
   useEffect(() => {
-    fetch("/check_session").then((r) => {
+    fetch(`${backendUrl}/check_session`).then((r) => {
       if (r.ok) {
         r.json().then((user) => setUser(user));
       }
     });
   }, []);
-  //upon fetch, if user doesnt exist in session object/ user iiis null
-  //render the login/signup page
+
   if (!user) return <Login onLogin={setUser} />;
 
   return (
@@ -39,7 +36,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login onLogin={setUser} />} />
-          {/* <Route path="/signup" element={<Signup onSignup={setUser} />} /> */}
           <Route path="/book_clubs/:id" element={<BookClubPage />} />
           <Route path="/book_clubs" element={<BookClub />} />
           <Route path="/podcast" element={<Podcast />} />
